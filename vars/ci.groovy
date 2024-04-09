@@ -1,4 +1,8 @@
 pipeline {
+  environment {
+      DOCKER_REGISTRY_USER = credentials("dockerRegistryUserName")
+      DOCKER_REGISTRY_PASS = credentials("dockerRegistryPassword")
+  }  
     agent {
         kubernetes {
             label 'my-pod'
