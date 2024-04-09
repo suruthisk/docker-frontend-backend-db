@@ -8,22 +8,13 @@ pipeline {
             yaml """
 apiVersion: v1
 kind: Pod
-metadata:
-  labels:
-    app: my-app
-  name: my-pod
 spec:
   containers:
   - name: docker
     image: docker:latest
-    command:
-    - cat
-    tty: true
   - name: kubectl
     image: bitnami/kubectl:latest
-    command:
-    - cat
-    tty: true
+    
 """
         }
     }
@@ -38,14 +29,14 @@ spec:
         stage('Docker Build') {
             steps {
                 container('docker') {
-                    sh 'docker build -f  ./frontend/Dockerfile -t froo:3 ./frontend/
+                    sh 'docker build -f  ./frontend/Dockerfile -t froo:3 ./frontend/'
                 }
             }
         }
         stage('Docker push') {
             steps {
                 Scripts{
-                    sh docker push suruthi125/froo:3
+                    sh 'docker push suruthi125/froo:3'
 
                 }
             }
