@@ -40,19 +40,14 @@ spec:
         stage('Docker Build') {
             steps {
                 container('docker') {
-                    sh 'docker pull suruthi125/froo:3'
+                    sh 'docker build -f  ./frontend/Dockerfile -t froo:3 ./frontend/
                 }
             }
         }
-        stage('Deploy') {
+        stage('Docker push') {
             steps {
                 Scripts{
-                    sh 'kubectl apply -f frontdeployment.yaml -n suruthi'
-                
-                    sh 'kubectl apply -f service.yaml -n suruthi'
-
-                    sh  'kubectl get all -n suruthi' 
-                    
+                    sh docker push suruthi125/froo:3
 
                 }
             }
