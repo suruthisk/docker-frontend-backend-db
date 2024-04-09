@@ -1,48 +1,88 @@
 pipeline {
   environment {
-      DOCKER_REGISTRY_USER = credentials("dockerRegistryUserName")
-      DOCKER_REGISTRY_PASS = credentials("dockerRegistryPassword")
-  }  
+    DOCKER_REGISTRY_USER = credentials("dockerRegistryUserName")
+    DOCKER_REGISTRY_PASS = credentials("dockerRegistryPassword")
+
+  }
     agent {
         kubernetes {
-            yaml """
-apiVersion: v1
-kind: Pod
-spec:
-  containers:
-  - name: docker
-    image: docker:latest
-  - name: kubectl
-    image: bitnami/kubectl:latest
-    
-"""
+            yaml '''
+              apiVersion: v1
+              kind: Pod
+              spec:
+                containers:
+                - name: docker 
+                  image: docker:20-dind
+                  securityContext:
+                      privileged: true
+                  tty: true
+                - name: kubectl
+                  image: bitnami/kubectl
+                  tty: true
+              '''          
+
         }
-    }
-    stages{
-        stage('git checkout'){
-            steps{
-                git 'https://github.com/suruthisk/docker-frontend-backend-db.git'
-            }
-        }
+
     }
     stages {
-        stage('Docker Build') {
-            steps {
-                container('docker') {
-                    sh 'docker build -f  ./frontend/Dockerfile -t froo:3 ./frontend/'
-                }
+      // stage ("Git checkout") {
+      //   steps {
+      //     script {
+      //       git branch: 'master', url: "https://github.com/suruthisk/docker-frontend-backend-db.git"
+      //     }
+      //   }
+      // }
+      // stage('Load jenkinsfile') {
+      //       steps {
+      //           script {
+      //               // Load and execute the Jenkinsfile
+      //               def jenkinsfilePath = 'jenkinsfile'
+      //               load jenkinsfilePath
+      //           }
+      //       }
+      // }      
+      stage ("Docker build frontend") {
+        steps {
+          container ("docker") {
+            when {
+                // Condition to trigger the frontend build, for example, if the branch is 'frontend'
+                expression { env.BRANCH_NAME == 'master' }
             }
+            script {
+              sh 'docker build -t froo .'
+              // dockerBuild.runDockerBuild(config.frontendRegistryUrl, config.frontendImage, "${tagBuildNumber}", "${DOCKER_REGISTRY_USER}", "${DOCKER_REGISTRY_PASS}", config.frontendDockerfileLocation)
+            }
+          }
+          
         }
-        stage('Docker push') {
-            steps {
-                Scripts{
-                    sh 'docker push suruthi125/froo:3'
+      }
+      stage ("Docker build backend") {
+        steps {
+          container ("docker") {
+            when {
+                // Condition to trigger the frontend build, for example, if the branch is 'frontend'
+                expression { env.BRANCH_NAME == 'master' }
+            }
+            script {
+              sh 'docker build -t broo .'
+             // dockerBuild.runDockerBuild(config.frontendRegistryUrl, config.frontendImage, "${tagBuildNumber}", "${DOCKER_REGISTRY_USER}", "${DOCKER_REGISTRY_PASS}", config.backendDockerfileLocation)
+            }
+          }
+          
+        }
+      }
+      stage ("Push images") {
+        steps {
+          container ("docker") {
+            script {
+              sh 'docker tag froo suruthi125/froo:3'
+              sh 'docker push suruthi125/froo:3'
+            }
 
-                }
-            }
+          }
         }
-        
-        
+      }
     }
-}
+    
 
+}
