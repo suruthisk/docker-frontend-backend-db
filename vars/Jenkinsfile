@@ -1,6 +1,0 @@
-ci {
-    image = "froo:3"
-    namespace = "suruthi"
-    dockerRegistryUrl = "https://hub.docker.com/repository/docker/suruthi125/froo/general"
-    dockerfileLocation = "Dockerfile"
-}
