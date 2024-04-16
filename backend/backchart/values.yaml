@@ -1,11 +1,11 @@
-# Default values for frontchart.
+# Default values for backchart.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
 
 image:
-  repository: suruthi125/fimage
+  repository: suruthi125/bimage
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: "1"
@@ -41,8 +41,8 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 3000
-  targetPort: 3000
+  port: 3001
+  targetPort: 3001
 
 ingress:
   enabled: false
