@@ -10,7 +10,7 @@ pool:
   vmImage: ubuntu-latest
 
 stages:
-  - stage: Build and push
+  - stage: Build
     displayName: Build and push docker 
     jobs:
       - job:
@@ -21,16 +21,16 @@ stages:
             containerRegistry: 'docker registry'
             command: 'buildAndPush'
             Dockerfile: '**/Dockerfile'
-  - stage: Deploy
-    displayName: Deploy stage 
-    jobs:
-      - job:
-        displayName: docker deploy
-        steps:
-        - task: AzureRmWebAppDeployment@4
-          inputs:
-            ConnectionType: 'AzureRM'
-            appType: 'webApp'
-            WebAppName: 
-            packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+  # - stage: Deploy
+  #   displayName: Deploy stage 
+  #   jobs:
+  #     - job:
+  #       displayName: docker deploy
+  #       steps:
+  #       - task: AzureRmWebAppDeployment@4
+  #         inputs:
+  #           ConnectionType: 'AzureRM'
+  #           appType: 'webApp'
+  #           WebAppName: 
+  #           packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
           
