@@ -19,9 +19,9 @@ stages:
         - task: Docker@2
           inputs:
             containerRegistry: 'docker registry'
-            Repository: 'new one'
+            Repository: 'suruthi125/new one'
             command: 'buildAndPush'
-            Dockerfile: '**/Dockerfile'
+            Dockerfile: './frontend/Dockerfile'
   # - stage: Deploy
   #   displayName: Deploy stage 
   #   jobs:
