@@ -10,11 +10,11 @@ pool:
   vmImage: ubuntu-latest
 
 stages:
-  - stage: Build
-    displayName: Build docker 
+  - stage: Build and push
+    displayName: Build and push docker 
     jobs:
       - job:
-        displayName: Build image
+        displayName: Build and push image
         steps:
         - task: Docker@2
           inputs:
@@ -27,5 +27,10 @@ stages:
       - job:
         displayName: docker deploy
         steps:
-        
+        - task: AzureRmWebAppDeployment@4
+          inputs:
+            ConnectionType: 'AzureRM'
+            appType: 'webApp'
+            WebAppName: 
+            packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
           
