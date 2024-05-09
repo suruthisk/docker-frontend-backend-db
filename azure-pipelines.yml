@@ -21,10 +21,11 @@ stages:
             containerRegistry: 'docker registry'
             command: 'buildAndPush'
             Dockerfile: '**/Dockerfile'
-  - stage: push
-    displayName: push docker
+  - stage: Deploy
+    displayName: Deploy stage 
     jobs:
       - job:
-        displayName: push image
+        displayName: docker deploy
         steps:
+        
           
