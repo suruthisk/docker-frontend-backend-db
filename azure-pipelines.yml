@@ -18,5 +18,13 @@ stages:
         steps:
         - task: Docker@2
           inputs:
-          command: 'buildAndPush'
-          Dockerfile: '**/Dockerfile'
+            containerRegistry: 'docker registry'
+            command: 'buildAndPush'
+            Dockerfile: '**/Dockerfile'
+  - stage: push
+    displayName: push docker
+    jobs:
+      - job:
+        displayName: push image
+        steps:
+          
