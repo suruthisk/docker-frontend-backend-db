@@ -7,7 +7,7 @@ trigger:
 - master
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: My agent
 
 stages:
   - stage: Build
@@ -22,16 +22,4 @@ stages:
             Repository: 'suruthi125/new one'
             command: 'buildAndPush'
             Dockerfile: './frontend/Dockerfile'
-  # - stage: Deploy
-  #   displayName: Deploy stage 
-  #   jobs:
-  #     - job:
-  #       displayName: docker deploy
-  #       steps:
-  #       - task: AzureRmWebAppDeployment@4
-  #         inputs:
-  #           ConnectionType: 'AzureRM'
-  #           appType: 'webApp'
-  #           WebAppName: 
-  #           packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
-          
+  
