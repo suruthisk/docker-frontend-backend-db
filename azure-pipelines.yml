@@ -7,7 +7,7 @@ trigger:
 - master
 
 pool:
-  vmImage: My agent
+  vmImage: MyAgent
 
 stages:
   - stage: Build
