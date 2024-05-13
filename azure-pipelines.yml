@@ -23,5 +23,5 @@ steps:
     containerRegistry: 'docker registry'
     repository: 'suruthi125/newone'
     command: 'run'
-    arguments: '-d -p 8080:3000 suruthi125/newone:$(tag)'
+    arguments: '-d -p 3000:3000 suruthi125/newone:$(tag)'
   
