@@ -11,23 +11,17 @@ pool: MyAgent
 variables:
   tag: $(Build.BuildId)
 
-stages:
-  - stage: Build
-    displayName: Build and push docker 
-    jobs:
-      - job: Build 
-        displayName: Build and push image
-        steps:
-        - task: Docker@2
-          inputs:
-            containerRegistry: 'docker registry'
-            Repository: 'suruthi125/newone:$(tag)'
-            command: 'buildAndPush'
-            Dockerfile: './frontend/Dockerfile'
-
-        - task: Docker@2
-          inputs:
-            containerRegistry: 'docker registry'
-            command: 'run'
-            arguments: '-d  -- name  frontend -p 8080:3000 suruthi125/newone:$(tag)'
+steps:
+- task: Docker@2
+  inputs:
+    containerRegistry: 'docker registry'
+    repository: 'suruthi125/newone'
+    command: 'buildAndPush'
+    Dockerfile: './frontend/Dockerfile'
+- task: Docker@2
+  inputs:
+    containerRegistry: 'docker registry'
+    repository: 'suruthi125/newone'
+    command: 'run'
+    arguments: '-d -p 8080:3000 suruthi125/newone:$(tag)'
   
