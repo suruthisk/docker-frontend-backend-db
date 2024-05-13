@@ -21,4 +21,9 @@ stages:
             Repository: 'suruthi125/new one'
             command: 'buildAndPush'
             Dockerfile: './frontend/Dockerfile'
+        - task: Docker@2
+          inputs:
+            containerRegistry: 'docker registry'
+            command: 'run'
+            arguments: '-d  -- name  frontend -p 8080:3000 suruthi125/new one'
   
