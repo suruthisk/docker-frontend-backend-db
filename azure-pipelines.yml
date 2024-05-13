@@ -18,12 +18,12 @@ stages:
         - task: Docker@2
           inputs:
             containerRegistry: 'docker registry'
-            Repository: 'suruthi125/new one'
+            Repository: 'suruthi125/newone'
             command: 'buildAndPush'
             Dockerfile: './frontend/Dockerfile'
         - task: Docker@2
           inputs:
             containerRegistry: 'docker registry'
             command: 'run'
-            arguments: '-d  -- name  frontend -p 8080:3000 suruthi125/new one'
+            arguments: '-d  -- name  frontend -p 8080:3000 suruthi125/newone'
   
